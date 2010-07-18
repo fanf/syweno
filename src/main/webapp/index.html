@@ -1,0 +1,55 @@
+<lift:surround with="default" at="content">
+		<head>
+		  <lift:ignore><!-- head contains everything needed to set up the JavaScript grid --></lift:ignore>
+		  <link rel="stylesheet" type="text/css" href="css/datatable_jui.css" media="screen" />
+      <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.2.custom.css" media="screen" />
+      <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+		  <script type="text/javascript" src="/js/jquery-ui-1.8.2.custom.min.js"></script>
+		  
+		  <lift:InitGrid.inHead jsVarName="plop" />
+      <lift:InitGrid.inHead jsVarName="foo" />
+		  <lift:controlSync.head />
+		</head>
+		
+  <div class="both">
+    <lift:ignore><!-- Display general information about LDAP server / synchronization connection --></lift:ignore>
+    <div style="float:right; margin: 100px;">
+      <img alt="" id="ajax-loader" style="display:none" src="/images/ajax-loader.gif"/>
+    </div> 
+    <lift:LdapServerInfos />
+  </div>
+  
+      
+  <div class="leftcontainer">
+    <div class="parag" style="text-align:center">
+      <lift:ignore><!-- display the start / stop sync button --></lift:ignore>
+      <p>Apache DS SDK</p>
+      <lift:controlSync provider="apacheds" />
+     </div>
+  
+    <div class="parag">
+      <lift:ignore><!-- Start the comet widget in charge to follow synchronization updates --></lift:ignore>
+      <lift:comet type="ApachedsLdapLog" jsVarName="plop" />
+  
+      <lift:InitGrid.table jsVarName="plop" />      
+    </div>
+  </div>
+
+
+  <div class="rightcontainer">
+	  <div class="parag" style="text-align:center">
+	    <lift:ignore><!-- display the start / stop sync button --></lift:ignore>
+      <p>UnboundID SDK</p>
+	    <lift:controlSync provider="unboundid" />
+	   </div>
+	
+	  <div class="parag">
+	    <lift:ignore><!-- Start the comet widget in charge to follow synchronization updates --></lift:ignore>
+			<lift:comet type="UnboundidLdapLog" jsVarName="foo" />
+			
+      <lift:InitGrid.table jsVarName="foo" /> 
+	  </div>
+  </div>
+  
+</lift:surround>
+

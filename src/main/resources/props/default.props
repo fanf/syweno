@@ -1,0 +1,57 @@
+#
+# LDAP host configuration
+#
+
+# LDAP server host, default localhost
+#ldap.provider.host=localhost
+# LDAP server port, default 389
+#ldap.provider.port=389
+
+
+# Bind DN to use to connect to the server
+ldap.provider.bind.dn=cn=manager, dc=example, dc=org
+# Bind password to use to connect to the server
+ldap.provider.bind.pwd=secret
+
+#
+# SyncRepl configuration
+#
+
+# Replication ID, used to uniquely identify 
+# the client. It should be only relevant for
+# the client, the LDAP master should not use
+# it to maintains state. 
+# Must be a positive int > 1
+syncrepl.replicaid=42
+
+# Does the synchronization is persistent ?
+# default: true
+#syncrepl.refresh.persist=true
+
+# Reload hint
+# From man slapo-syncproc:
+# for OpenLDAP > 1.3.11n this option should be set TRUE
+# default: true
+#syncrepl.reloadhint=true
+
+# Base dn for the synchronization search
+# no default
+syncrepl.search.basedn=dc=example,dc=org
+
+# Search Filter
+# default: (objectClass=*)
+#syncrepl.search.filter=(objectClass=*)
+
+# Comma separated list of attributes,
+# default: empty, means "all"
+#syncrepl.search.attributes=
+
+# SearchScope, 0: BASE, 1: ONE LEVEL, 2: SUB TREE
+# default 1 (base)
+syncrepl.search.scope=2
+
+# Search parameter: size and time limit, 
+# 0 means "no limit"
+# default: 0
+#syncrepl.search.sizelimit=0
+#syncrepl.search.timeout=0
