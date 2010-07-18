@@ -54,7 +54,7 @@ The web application plumbing is implemented as a listener service.
 This is done with Lift a comet actor, which update a web page
  in real time with the synchronization information received. 
 
-![Snapshot](href="http://4.bp.blogspot.com/_9D3n-ZqzF48/TEMDGz0H8TI/AAAAAAAABHA/_VTGVmDEeAI/s1600/syweno-main.png "Syweno snapshot")
+![Snapshot](http://4.bp.blogspot.com/_9D3n-ZqzF48/TEMDGz0H8TI/AAAAAAAABHA/_VTGVmDEeAI/s1600/syweno-main.png "Syweno snapshot")
 
 
 How to test ?
