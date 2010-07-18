@@ -11,13 +11,16 @@ class LdapServerInfos {
   
   def render : NodeSeq = {
     <div style="padding-left:5px;padding-right:5px;padding-bottom:15px;">
+      <div style="float:left; width:480px">
       <h2>LDAP server connection</h2>
       <ul>
         <li><b>Host:</b> {SyncReplConfig.provider.providerHost}</li>
         <li><b>Port:</b> {SyncReplConfig.provider.providerPort}</li>
         <li><b>Bind DN:</b> {SyncReplConfig.provider.bindDn}</li>
       </ul>
+      </div>
       
+      <div style="float:left; padding-bottom:10px">
       <h2>Synchronization parameter</h2>
       <ul>
         <li><b>Replica ID:</b> {SyncReplConfig.sync.replicaId}</li>
@@ -38,6 +41,7 @@ class LdapServerInfos {
           else SyncReplConfig.sync.attributes.mkString(",")
         }</li>
       </ul>
+      </div>
     </div>
   }
 }
