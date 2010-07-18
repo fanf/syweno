@@ -12,47 +12,44 @@ Use it at will, but don't complain if it brokes you hdtv.
 Key words
 =========
 
-LDAP, Replication, SyncRepl, Java LDAP SDK, Apache DS, 
-UnboundID, Scala, Liftweb, Comet
+LDAP, Replication, SyncRepl, RFC4533, Java LDAP SDK, Apache DS, UnboundID, 
+Scala, Liftweb, Comet
 
 What is it ?
 ============
 
-This application is a show case about how to use two different
-Java LDAP SDKs to get synchronization information from an LDAP
-directory, thanks to "SyncRepl" protocol, standardized 
-through RFC 4533 http://www.rfc-editor.org/rfc/rfc4533.txt
+This application is a show case about how to use two different Java LDAP SDKs 
+to get synchronization information from an LDAP directory, thanks to "SyncRepl"
+protocol, standardized through RFC 4533, see:
+http://www.rfc-editor.org/rfc/rfc4533.txt
 
 The two SDK are:
-* the Apache DS SDK http://directory.apache.org/ (which is more 
-  an internal API for the Apache Directory Server for now, but 
-  evolves quickly)
+- the Apache DS SDK http://directory.apache.org/ (which is more an internal API
+  for the Apache Directory Server for now, but evolves quickly)
   
-* UnboundId LDAP SDK http://www.unboundid.com/products/ldapsdk ,
-  a full feature, pure Java LDAP SDK. 
-
+- UnboundId LDAP SDK http://www.unboundid.com/products/ldapsdk, a full feature, 
+  pure Java LDAP SDK. 
 
 Some more details
 =================
 
-For each SDK, we build a service that handle a synchronization
-connection to a master LDAP server and process synchronization
-message and controls according to the SyncRepl protocol. 
+For each SDK, we build a service that handle a synchronization connection to a 
+master LDAP server and process synchronization message and controls according 
+to the SyncRepl protocol. 
 
-The service allows listener services to be connected to the 
-synchronization service and to receive (decoded) synchronization
-messages.
+The service allows listener services to be connected to the synchronization 
+service and to receive (decoded) synchronization messages.
 
-For some more fun, the application is fully implemented in 
-Scala 2.8.0, recently released: http://www.scala-lang.org/node/7009
+For some more fun, the application is fully implemented in Scala 2.8.0, recently
+released: http://www.scala-lang.org/node/7009
 
-The full application is a Lift web application that show in 
-real-time synchronization message received from the LDAP server
-in a searchable/sortable HTML grid. 
+The full application is a Lift web application that show in real-time 
+synchronization message received from the LDAP server in a searchable and
+sortable HTML grid. 
 
-The web application plumbing is implemented as a listener service.
-This is done with Lift a comet actor, which update a web page
- in real time with the synchronization information received. 
+The web application plumbing is implemented as a listener service. This is done 
+with Lift a comet actor, which update a web page in real time with the 
+synchronization information received. 
 
 ![Snapshot](http://4.bp.blogspot.com/_9D3n-ZqzF48/TEMDGz0H8TI/AAAAAAAABHA/_VTGVmDEeAI/s1600/syweno-main.png "Syweno snapshot")
 
@@ -61,30 +58,39 @@ How to test ?
 =============
 
 Build tools
-===========
+-----------
 
-This project use Maven 2, so if you don't have it yet, 
-see http://maven.apache.org/
+This project is coded in Scala, a language running on top of the JVM.
+You will need the last JDK, see: http://java.sun.com
 
-Install UnboundId from source
-=============================
-Syncrepl controls are only available since revision #162 of
-UnboundId LDAP SDK, what is post 2.0.0-rc1, which is the most
-recent binary revision to date (16 Jully 2010).
+This project use Maven 2 to manage dependencies for, and to be buit. So if you 
+don't have it yet, see how to install it here: http://maven.apache.org
 
-So, checkout the last svn revision, cd to the root directory.
-Then compile.
-You will have to have Ant installed, see http://ant.apache.org/
-if it's not the case. 
+Install UnboundId from sources
+------------------------------
 
-Then, make the build script executable:
+Syncrepl controls are only available since revision #162 of UnboundId LDAP SDK, 
+what is post 2.0.0-rc1, which is the most recent binary revision to date 
+(16 Jully 2010).
+
+So, checkout the last svn revision, cd to the root directory. 
+You will have to have Ant installed for compilatio, see 
+http://ant.apache.org if uou don't know what Ant is. 
+
+Then, make UndoundID build script executable:
+<pre>
 % chmod +x build-se.sh
+</pre>
 
 And compile:
+<pre>
 % ./build-se.sh
+</pre<
 
-That should terminate without error, and create a "build/package"
-directory with the maven jars. 
+That should terminate without error, and create a "build/package" directory 
+with the maven jars:
+
+<pre>
 % cd build/package
 % unzip maven.zip
 Archive:  maven.zip
@@ -94,56 +100,61 @@ Archive:  maven.zip
    creating: maven/com/unboundid/unboundid-ldapsdk/
    creating: maven/com/unboundid/unboundid-ldapsdk/2.0.0/
    ....
+</pre>
 
-Now, copy the tree to your maven local repository:
+Now, copy the tree to your maven local repository so that maven 
+knows they exist:
+
+<pre>
 % cp -r maven/* ~/.m2/repository/
+</pre>
 
 Done!
 
 Test
-====
+----
 
 Now, test: 
+<pre>
 % mvn jetty:run
+</pre>
 
-That should launch the application. 
+That should launch the web application on your http://localhost:8080/
 
-But... wait, you also need an event producer and configure some 
-properties to connect to it !
+But... wait, you also need an LDAP synchronisation event producer and to 
+configure some properties to connect to it !
 
 Configure properties
-====================
+--------------------
 
-"default.props" configuration file is located in 
-directory "src/main/resources/props". It should be
-rather well documented, and you only have 4 mandatory
-configuration parameter to provide (if your LDAP server
-is on localhost/389):
+**default.props** configuration file is located in directory **src/main/resources/props**. 
+Configuration option should be rather well documented, and all in all, you only
+have 4 mandatory configuration parameter to provide if your LDAP server is on 
+localhost/389:
+
 - Bind DN and password ;
-- replication ID you want to use (if you don't have 
-  any idea about what to choose, consider using 42, 
-  it's a good answer)
+- replication ID you want to use (if you don't have any idea about what to 
+  choose, consider using 42, it's a good answer)
 - base DN of the search. 
 
-Note: if you use a war version of the demo app, you
-will need to unzip it, and then edit "default.props"
-that should be located in "WEB-INF/classes" directory 
-before rezipping the war. Yes, it's awful. 
+Note: if you use a war version of the demo app, you will need to unzip it, 
+and then edit **default.props** that should be located in **WEB-INF/classes** 
+directory before rezipping the war. Yes, it's awful, but we all love Java,
+won't we ?
 
 Install OpenLDAP with syncrepl
-==============================
+------------------------------
 
-* install an OpenLDAP, and add some datas to it. 
-  Details of that operation are let as a game for
-  the user ;)
+- install an OpenLDAP, and add some datas to it. Details of that operation are 
+  let as a game for the user ;)
   
-* configure OpenLDAP to be a syncrepl master. 
+- configure OpenLDAP to be a syncrepl master. 
   See: http://www.openldap.org/doc/admin24/replication.html
 
-  For a Debian based distribution it should be as easy as
-  editing the OpenLDAP slapd.conf config file, to add: 
+For a Debian based distribution it should be as easy as editing the OpenLDAP 
+**slapd.conf** config file (if your OpenLDAP still use that format), to add: 
   
-  8<-------------------------------------------------
+<pre>
   ########
   # Load syncrepl dynamic module
   moduleload      syncprov
@@ -157,6 +168,7 @@ Install OpenLDAP with syncrepl
   syncprov-checkpoint 100 2
   syncprov-sessionlog 100
   syncprov-reloadhint TRUE
-  8<-------------------------------------------------
+</pre>
 
-OK, and now test !
+OK, and now restart to test and enjoy simple LDAP replication !
+
