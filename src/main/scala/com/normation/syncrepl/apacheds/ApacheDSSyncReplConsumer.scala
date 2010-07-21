@@ -347,8 +347,11 @@ class ApacheDSSyncReplConsumer(
           if(LOG.isDebugEnabled) {
             LOG.debug( "refreshDeletes: " + syncInfoValue.isRefreshDeletes )
             LOG.debug( "refreshDone: " + syncInfoValue.isRefreshDone )
+            
+            val opType = if(syncInfoValue.isRefreshDeletes) "DEL" else "PRES"
+
             for(uuid <- uuidList) {
-              LOG.info( "uuid: {}", uuid )
+              LOG.info( "{} uuid: {}", opType, uuid )
             }
           }
 
