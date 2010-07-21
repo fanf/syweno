@@ -203,10 +203,10 @@ class UnboundIDSyncReplConsumer(
               )
               
             contentSyncStateControl.getState match {
-              case ContentSyncState.ADD     => syncMessageListener.foreach { _.sync(Add(dn,uuid,attributes)) }
-              case ContentSyncState.MODIFY  => syncMessageListener.foreach { _.sync(Modify(dn,uuid,attributes)) }
-              case ContentSyncState.DELETE  => syncMessageListener.foreach { _.sync(Delete(dn,uuid)) }
-              case ContentSyncState.PRESENT => syncMessageListener.foreach { _.sync(Present(dn,uuid)) }
+              case ContentSyncState.ADD     => syncMessageListener.foreach { _.sync(Add(dn,uuid.toString,attributes)) }
+              case ContentSyncState.MODIFY  => syncMessageListener.foreach { _.sync(Modify(dn,uuid.toString,attributes)) }
+              case ContentSyncState.DELETE  => syncMessageListener.foreach { _.sync(Delete(dn,uuid.toString)) }
+              case ContentSyncState.PRESENT => syncMessageListener.foreach { _.sync(Present(dn,uuid.toString)) }
             }
             
             //save updated cookie
@@ -287,15 +287,15 @@ class UnboundIDSyncReplConsumer(
             
             val uuidList = syncInfoValue.getEntryUUIDs match {
               case null => Nil
-              case l => l.toList
+              case l => l.toList.map( _.toString )
             }
       
             if(logger.isDebugEnabled) {
               logger.debug( "refreshDeletes: " + syncInfoValue.refreshDeletes )
               logger.debug( "refreshDone: " + syncInfoValue.refreshDone )
-    
+              val opType = if(syncInfoValue.refreshDeletes) "DEL" else "PRES"
               for(uuid <- uuidList) {
-                logger.debug( "uuid: {}", uuid )
+                logger.debug( "{} uuid: {}", opType, uuid )
               }
             }
   
