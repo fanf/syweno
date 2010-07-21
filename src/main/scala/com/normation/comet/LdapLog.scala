@@ -117,14 +117,14 @@ class LdapLog(initSession: LiftSession,
         val n = now
         partialUpdate(
           uuids.foldLeft(Noop)( (js,uuid) => 
-            js & addRow(n,"DEL", "DN", uuid)
+            js & addRow(n,"DEL", "UUID", uuid)
           )
         )
       case MassPresent(uuids) =>
         val n = now
         partialUpdate(
           uuids.foldLeft(Noop)( (js,uuid) => 
-            js & addRow(n,"PRESENCE", "DN", uuid)
+            js & addRow(n,"PRESENCE", "UUID", uuid)
           )
         )
     }
