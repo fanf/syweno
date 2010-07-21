@@ -285,17 +285,15 @@ class UnboundIDSyncReplConsumer(
         ContentSyncInfoIntermediateResponse.decode(intermediateResponse) match {
           case syncInfoValue:ContentSyncInfoIntermediateResponse =>
             
-            saveCookie(syncInfoValue.getCookie )
-                    
             val uuidList = syncInfoValue.getEntryUUIDs match {
               case null => Nil
               case l => l.toList
             }
       
-            logger.debug( "refreshDeletes: " + syncInfoValue.refreshDeletes )
-            logger.debug( "refreshDone: " + syncInfoValue.refreshDone )
-  
             if(logger.isDebugEnabled) {
+              logger.debug( "refreshDeletes: " + syncInfoValue.refreshDeletes )
+              logger.debug( "refreshDone: " + syncInfoValue.refreshDone )
+    
               for(uuid <- uuidList) {
                 logger.debug( "uuid: {}", uuid )
               }
@@ -310,6 +308,8 @@ class UnboundIDSyncReplConsumer(
                 syncMessageListener.foreach { _.sync(MassPresent(uuidList)) }
               }
             }
+            saveCookie(syncInfoValue.getCookie )
+                    
             logger.debug( "............... end handleSyncInfo ..............." )
             
           case x => logger.error("Unknown intermediate response: {}", x)

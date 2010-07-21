@@ -338,17 +338,15 @@ class ApacheDSSyncReplConsumer(
 
       decoder.decode( result.getResponseValue, null ) match {
         case syncInfoValue:SyncInfoValueControl =>
-          saveCookie( syncInfoValue.getCookie )
-
           
           val uuidList = syncInfoValue.getSyncUUIDs match {
             case null => Nil
             case l => l.map { uuid => StringTools.uuidToString( uuid ) }.toList
           }
 
-          LOG.debug( "refreshDeletes: " + syncInfoValue.isRefreshDeletes )
-          LOG.debug( "refreshDone: " + syncInfoValue.isRefreshDone )
           if(LOG.isDebugEnabled) {
+            LOG.debug( "refreshDeletes: " + syncInfoValue.isRefreshDeletes )
+            LOG.debug( "refreshDone: " + syncInfoValue.isRefreshDone )
             for(uuid <- uuidList) {
               LOG.info( "uuid: {}", uuid )
             }
@@ -363,6 +361,8 @@ class ApacheDSSyncReplConsumer(
               entryProcessors.foreach { _.sync(MassPresent(uuidList)) }
             }
           }
+          
+          saveCookie( syncInfoValue.getCookie )
         case x =>
           LOG.error("Found an unknow control: {}",x)
       }
