@@ -1,13 +1,17 @@
 
-Author: François 'fanf' Armand
-        http://fanf42.blogspot.com
-        http://normation.com
+Author: 
+-------
+    François 'fanf' Armand
+    http://fanf42.blogspot.com
+    http://normation.com
 
-License:  That project is under ASF 2.0 license, see the 
-          provided "LICENSE-ASF-2.0.txt" file  or 
-          http://www.apache.org/licenses/LICENSE-2.0.html
+License:
+--------
+    That project is under ASF 2.0 license, see the 
+    provided "LICENSE-ASF-2.0.txt" file  or 
+    http://www.apache.org/licenses/LICENSE-2.0.html
 
-Use it at will, but don't complain if it brokes you hdtv. 
+    Use it at will, but don't complain if it breaks you hdtv. 
 
 Key words
 =========
@@ -65,51 +69,6 @@ You will need the last JDK, see: http://java.sun.com
 
 This project use Maven 2 to manage dependencies for, and to be buit. So if you 
 don't have it yet, see how to install it here: http://maven.apache.org
-
-Install UnboundId from sources
-------------------------------
-
-Syncrepl controls are only available since revision #162 of UnboundId LDAP SDK, 
-what is post 2.0.0-rc1, which is the most recent binary revision to date 
-(16 Jully 2010).
-
-So, checkout the last svn revision, cd to the root directory. 
-You will have to have Ant installed for compilatio, see 
-http://ant.apache.org if uou don't know what Ant is. 
-
-Then, make UndoundID build script executable:
-<pre>
-% chmod +x build-se.sh
-</pre>
-
-And compile:
-<pre>
-% ./build-se.sh
-</pre<
-
-That should terminate without error, and create a "build/package" directory 
-with the maven jars:
-
-<pre>
-% cd build/package
-% unzip maven.zip
-Archive:  maven.zip
-   creating: maven/
-   creating: maven/com/
-   creating: maven/com/unboundid/
-   creating: maven/com/unboundid/unboundid-ldapsdk/
-   creating: maven/com/unboundid/unboundid-ldapsdk/2.0.0/
-   ....
-</pre>
-
-Now, copy the tree to your maven local repository so that maven 
-knows they exist:
-
-<pre>
-% cp -r maven/* ~/.m2/repository/
-</pre>
-
-Done!
 
 Test
 ----

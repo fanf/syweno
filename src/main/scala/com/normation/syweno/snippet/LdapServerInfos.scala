@@ -1,4 +1,4 @@
-package com.normation.snippet
+package com.normation.syweno.snippet
 
 import scala.xml._
 import bootstrap.liftweb.SyncReplConfig

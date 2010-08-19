@@ -1,4 +1,4 @@
-package com.normation.syncrepl
+package com.normation.syweno.syncrepl
 
 import org.slf4j.{LoggerFactory,Logger}
 import java.io.{File,FileOutputStream,FileInputStream}

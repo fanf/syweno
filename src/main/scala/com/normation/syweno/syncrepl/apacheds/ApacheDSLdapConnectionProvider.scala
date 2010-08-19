@@ -1,12 +1,13 @@
-package com.normation.syncrepl
-package unboundid
-
+package com.normation.syweno.syncrepl
+package apacheds
 
 import org.slf4j.LoggerFactory
 import net.liftweb.common._
 import net.liftweb.util.ControlHelpers.tryo
 
-import com.unboundid.ldap.sdk.{LDAPConnection,BindResult,ResultCode}
+import org.apache.directory.ldap.client.api.LdapConnection
+import org.apache.directory.ldap.client.api.message.BindResponse
+import org.apache.directory.shared.ldap.message.ResultCodeEnum
 
 
 /**
@@ -16,41 +17,42 @@ import com.unboundid.ldap.sdk.{LDAPConnection,BindResult,ResultCode}
  * It is also able to keep and reuse an internal connection
  * for several operations. 
  */
-class UnboundIDLdapConnectionProvider(
+class ApacheDSLdapConnectionProvider(
   val config:ProviderConfiguration
-) extends LdapConnectionProvider[LDAPConnection] {
-  private val LOG = LoggerFactory.getLogger(classOf[UnboundIDLdapConnectionProvider])
-  private var internalConnection : Box[LDAPConnection] = Empty
+) extends LdapConnectionProvider[LdapConnection] {
+  
+  private val LOG = LoggerFactory.getLogger(classOf[ApacheDSLdapConnectionProvider])
+  private var internalConnection : Box[LdapConnection] = Empty
   
   /**
    * Return the connection to provider if bind succeeded.
    * A bind to provider is tried only if no valid 
    * connection already exists
    */
-  def connection : Box[LDAPConnection] = internalConnection match {
+  def connection : Box[LdapConnection] = internalConnection match {
     case Full(con) if(!con.isConnected) => 
       disconnect
       connection
     case Full(con) => internalConnection 
     case _ =>
-      val connection = new LDAPConnection( config.providerHost, config.providerPort )
+      val connection = new LdapConnection( config.providerHost, config.providerPort)
     
       internalConnection = (for {
         con <- tryo(connection.bind( config.bindDn, config.credentials ))
         boundCon <- (con match {
           case null => Failure("Failed to bind with the given bindDN and credentials")
-          case bindResponse:BindResult => tryo(bindResponse.getResultCode) match {
-            case Full(ResultCode.SUCCESS) => 
+          case bindResponse:BindResponse => tryo(bindResponse.getLdapResult.getResultCode) match {
+            case Full(ResultCodeEnum.SUCCESS) => 
               Full(connection)
             case _ => 
-              Failure("Failed to bind on the server : %s".format(bindResponse.getResultCode.toString))
+              Failure("Failed to bind on the server : %s".format(bindResponse.getLdapResult))
           }
         })
       } yield {
         boundCon
       })
       
-      //log result
+      //log restul
       internalConnection match {
         case Failure(m,_,_) => LOG.error(m)
         case Empty => LOG.error("Can not start a connection but no error messages provided")
@@ -64,7 +66,7 @@ class UnboundIDLdapConnectionProvider(
     internalConnection match {
       case Full(con) => 
         (for {
-          unbound <- tryo(con.close)
+          unbound <- tryo(con.unBind)
           closed <- tryo(con.close)
         } yield {
           internalConnection = None

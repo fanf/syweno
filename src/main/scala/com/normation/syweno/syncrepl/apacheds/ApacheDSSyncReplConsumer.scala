@@ -1,4 +1,4 @@
-package com.normation.syncrepl
+package com.normation.syweno.syncrepl
 package apacheds
 
 import org.slf4j.LoggerFactory

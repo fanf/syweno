@@ -2,9 +2,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.normation</groupId>
-  <artifactId>test-syncrepl</artifactId>
+  <artifactId>syweno</artifactId>
   <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.1-SNAPSHOT</version>
 
   <properties>
     <!-- UTF-8 for everyone -->
@@ -15,7 +15,7 @@
     <logback-version>0.9.20</logback-version>
     <lift-version>2.1-SNAPSHOT</lift-version>
     <scala-version>2.8.0</scala-version>
-    <scala-maven-plugin-version>2.13.1</scala-maven-plugin-version>    
+    <scala-maven-plugin-version>2.14.1</scala-maven-plugin-version>    
     <spring-version>3.0.3.RELEASE</spring-version>
   </properties>
 
@@ -174,7 +174,7 @@
     <dependency>
       <groupId>com.unboundid</groupId>
       <artifactId>unboundid-ldapsdk</artifactId>
-      <version>2.0.0</version>
+      <version>1.1.5</version>
     </dependency>    
         
     <!-- Syncrepl interaction -->

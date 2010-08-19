@@ -1,4 +1,4 @@
-package com.normation.syncrepl
+package com.normation.syweno.syncrepl
 
 import org.junit.Assert._
 import org.junit.{Test,AfterClass}

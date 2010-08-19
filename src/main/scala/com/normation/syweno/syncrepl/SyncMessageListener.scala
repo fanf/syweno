@@ -1,4 +1,4 @@
-package com.normation.syncrepl
+package com.normation.syweno.syncrepl
 
 /**
  * Interface of the service in charge to actually

@@ -1,7 +1,7 @@
-package com.normation.snippet
+package com.normation.syweno.snippet
 
 import bootstrap.liftweb.{UnboundIDSyncreplConsumer,ApacheDSSyncreplConsumer}
-import com.normation.syncrepl._
+import com.normation.syweno.syncrepl._
 import apacheds._
 import unboundid._
 import scala.xml._

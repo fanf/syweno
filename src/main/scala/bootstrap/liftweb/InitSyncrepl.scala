@@ -1,6 +1,6 @@
 package bootstrap.liftweb
 
-import com.normation.syncrepl._
+import com.normation.syweno.syncrepl._
 import apacheds._
 import unboundid._
 

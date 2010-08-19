@@ -1,4 +1,4 @@
-package com.normation
+package com.normation.syweno
 package comet
 
 import syncrepl._

@@ -8,7 +8,7 @@ import net.liftweb.sitemap._
 import net.liftweb.sitemap.Loc._
 import Helpers._
 
-import com.normation.comet._
+import com.normation.syweno.comet._
 
 /**
   * A class that's instantiated early and run.  It allows the application
@@ -17,7 +17,7 @@ import com.normation.comet._
 class Boot {
   def boot {
     // where to search snippet
-    LiftRules.addToPackages("com.normation")
+    LiftRules.addToPackages("com.normation.syweno")
 
     
     LiftRules.ajaxStart = Full(() => LiftRules.jsArtifacts.show("ajax-loader").cmd)
